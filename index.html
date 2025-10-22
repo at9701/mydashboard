@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberHome 24h購物 - 甚麼都沒有甚麼不奇怪</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* 頂部通知欄 */
+        .top-bar {
+            background: linear-gradient(90deg, #ff0000 0%, #cc0000 100%);
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 15px;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* 主要標題和搜尋區 */
+        .header {
+            background: linear-gradient(135deg, #ff0000 0%, #ff3333 100%);
+            padding: 20px;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            color: #ff0000;
+        }
+
+        .logo-subtext {
+            font-size: 28px;
+            color: #333;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .search-container {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .category-select {
+            padding: 12px 20px;
+            border: none;
+            background: #f0f0f0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-button {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 0 30px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .promo-badge {
+            background: #0066ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* 熱門關鍵字 */
+        .hot-keywords {
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: white;
+            font-size: 14px;
+        }
+
+        .hot-keywords a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+        }
+
+        /* 分類導航 */
+        .category-nav {
+            background: #cc0000;
+            padding: 0 20px;
+        }
+
+        .category-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+        }
+
+        .category-item {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .category-item:hover {
+            background: #ff0000;
+        }
+
+        /* 主要內容區 */
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* 側邊欄 */
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 200px;
+        }
+
+        .sidebar-ad {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-ad img {
+            width: 100%;
+            display: block;
+        }
+
+        .sidebar-promo {
+            background: linear-gradient(135deg, #6644ff 0%, #4422dd 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-promo h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-promo p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-promo button {
+            background: white;
+            color: #6644ff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* 主要內容 */
+        .main-content {
+            flex: 1;
+        }
+
+        /* 主要輪播 */
+        .main-banner {
+            background: linear-gradient(135deg, #cc0000 0%, #990000 50%, #cc0000 100%);
+            border-radius: 15px;
+            padding: 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .banner-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(255,255,255,0.05) 50px,
+                    rgba(255,255,255,0.05) 100px
+                );
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+        }
+
+        .banner-brand {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .banner-title {
+            font-size: 72px;
+            font-weight: bold;
+            color: #ffff00;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .banner-subtitle {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .banner-badge {
+            background: white;
+            color: #cc0000;
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .banner-products {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 20px;
+        }
+
+        .banner-product-img {
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* 促銷區塊 */
+        .promo-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .promo-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .promo-card:nth-child(1) {
+            background: linear-gradient(135deg, #6644ff 0%, #5533ee 100%);
+            color: white;
+        }
+
+        .promo-card:nth-child(2) {
+            background: linear-gradient(135deg, #5533ee 0%, #4422dd 100%);
+            color: white;
+        }
+
+        .promo-card:nth-child(3) {
+            background: linear-gradient(135deg, #ff0066 0%, #dd0055 100%);
+            color: white;
+        }
+
+        .promo-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .promo-desc {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .promo-button {
+            background: white;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 大型促銷橫幅 */
+        .big-promo {
+            background: linear-gradient(90deg, #ff6600 0%, #ff9900 100%);
+            border-radius: 15px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .big-promo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 30px,
+                rgba(255,255,255,0.1) 30px,
+                rgba(255,255,255,0.1) 60px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .big-promo-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .big-promo h2 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .big-promo-highlight {
+            font-size: 72px;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        /* 分類促銷 */
+        .category-promos {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-promo {
+            background: linear-gradient(135deg, #4422dd 0%, #3311cc 100%);
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-promo:hover {
+            transform: scale(1.05);
+        }
+
+        .category-promo-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .category-promo-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .category-promo-desc {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .category-promo-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffff00;
+        }
+
+        /* 會員專區 */
+        .member-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .member-greeting {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .member-benefits {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .benefit-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* P幣促銷 */
+        .pcoin-section {
+            background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pcoin-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .pcoin-character {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1024px) {
+            .promo-section {
+                grid-template-columns: 1fr;
+            }
+
+            .category-promos {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .member-benefits {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .category-nav-container {
+                overflow-x: auto;
+            }
+
+            .banner-products {
+                display: none;
+            }
+
+            .category-promos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 頂部通知欄 -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <span>🔥 比比昂日本連線購物</span>
+            <a href="#">綜合服務 ▼</a>
+        </div>
+        <div class="top-bar-right">
+            <a href="#">最近看過</a>
+            <a href="#">購物車</a>
+            <a href="#">我的訂單</a>
+            <a href="#">顧客中心</a>
+            <a href="#">下載 APP</a>
+            <a href="#">註冊</a>
+            <a href="#">登入</a>
+        </div>
+    </div>
+
+    <!-- 主要標題和搜尋 -->
+    <div class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-text">CyberHome</span>
+                <span class="logo-subtext">24h</span>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <select class="category-select">
+                        <option>全站</option>
+                        <option>3C</option>
+                        <option>家電</option>
+                        <option>生活</option>
+                    </select>
+                    <input type="text" class="search-input" placeholder="iPhone 17 Pro">
+                    <button class="search-button">🔍</button>
+                </div>
+                <div class="promo-badge">低門檻！$490 免運</div>
+            </div>
+        </div>
+        <div class="hot-keywords">
+            <span>🔥熱門搜尋:</span>
+            <a href="#">switch 2</a>
+            <a href="#">筆電</a>
+            <a href="#">防水</a>
+            <a href="#">核心訓練</a>
+            <a href="#">不沾鍋</a>
+            <a href="#">智慧冷箱</a>
+            <a href="#">室內健身</a>
+            <a href="#">代購</a>
+        </div>
+    </div>
+
+    <!-- 分類導航 -->
+    <div class="category-nav">
+        <div class="category-nav-container">
+            <a href="#" class="category-item">3C</a>
+            <a href="#" class="category-item">周邊</a>
+            <a href="#" class="category-item">筆電</a>
+            <a href="#" class="category-item">通訊</a>
+            <a href="#" class="category-item">數位</a>
+            <a href="#" class="category-item">家電</a>
+            <a href="#" class="category-item">日用</a>
+            <a href="#" class="category-item">母嬰</a>
+            <a href="#" class="category-item">食品</a>
+            <a href="#" class="category-item">生活</a>
+            <a href="#" class="category-item">居家</a>
+            <a href="#" class="category-item">休閒</a>
+            <a href="#" class="category-item">保健</a>
+            <a href="#" class="category-item">美妝</a>
+            <a href="#" class="category-item">時尚</a>
+            <a href="#" class="category-item">書店</a>
+        </div>
+    </div>
+
+    <!-- 主要內容 -->
+    <div class="main-container">
+        <div class="content-wrapper">
+            <!-- 側邊欄 -->
+            <aside class="sidebar">
+                <div class="sidebar-ad">
+                    <div style="background: linear-gradient(135deg, #333 0%, #000 100%); height: 180px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold;">
+                        NIKE限時特賣<br>登場優惠到880
+                    </div>
+                </div>
+                <div class="sidebar-promo">
+                    <h3>📱 精選熱銷電視</h3>
+                    <p>最高回饋2萬P</p>
+                    <button>Go!</button>
+                </div>
+                <div class="member-section" style="padding: 20px;">
+                    <div class="member-greeting" style="font-size: 18px;">午安您好！</div>
+                    <button style="width: 100%; padding: 10px; background: #ff0000; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">登入</button>
+                    <div style="margin-top: 15px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="font-size: 36px; color: #ff0000;">⏰</span>
+                            <span style="font-size: 14px;">24小時快速到貨</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="font-size: 36px; color: #ff0000;">🎯</span>
+                            <span style="font-size: 14px;">滿意期限登記</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span style="font-size: 36px; color: #ff0000;">💳</span>
+                            <span style="font-size: 14px;">多元付款方式</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 36px; color: #ff0000;">💰</span>
+                            <span style="font-size: 14px;">銀行分期零利率</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pcoin-section" style="margin-top: 15px; padding: 20px;">
+                    <h3 style="font-size: 20px; margin-bottom: 10px;">註冊送P幣💰</h3>
+                    <div style="font-size: 48px; margin: 10px 0;">😊</div>
+                    <p style="font-size: 14px;">@註冊馬上贈</p>
+                </div>
+            </aside>
+
+            <!-- 主要內容 -->
+            <main class="main-content">
+                <!-- 主要輪播廣告 -->
+                <div class="main-banner">
+                    <div class="banner-pattern"></div>
+                    <div class="banner-content">
+                        <div class="banner-brand">🎯 LG 超大牌</div>
+                        <div class="banner-title">最高送<br>27911P</div>
+                        <div class="banner-subtitle">指定品週過抽 Switch2 🎮</div>
+                        <div class="banner-badge">10/22 限定</div>
+                    </div>
+                    <div class="banner-products">
+                        <div class="banner-product-img" style="background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;">冰箱</div>
+                        <div class="banner-product-img" style="background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;">洗衣機</div>
+                        <div class="banner-product-img" style="background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;">電視 65"</div>
+                    </div>
+                    <div class="banner-dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+
+                <!-- 促銷卡片 -->
+                <div class="promo-section">
+                    <div class="promo-card">
+                        <div class="promo-title">24h會員日</div>
+                        <div class="promo-desc">盛高抽240P幣</div>
+                        <button class="promo-button">Go! →</button>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-title">天天簽到</div>
+                        <div class="promo-desc">限量P幣發送中</div>
+                        <button class="promo-button">Go! →</button>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-title">熱賣互期天</div>
+                        <div class="promo-desc">滿1000折120</div>
+                        <button class="promo-button">Go! →</button>
+                    </div>
+                </div>
+
+                <!-- 大型促銷 -->
+                <div class="big-promo">
+                    <div class="big-promo-content">
+                        <h2>🏆 每月 24h 會員日</h2>
+                        <div class="big-promo-highlight">最高回贈 16%</div>
+                        <div style="font-size: 24px; margin-top: 10px;">24h大牌聯盟・滿$2424 登記抽登機箱</div>
+                    </div>
+                </div>
+
+                <!-- 分類促銷 -->
+                <div class="category-promos">
+                    <div class="category-promo">
+                        <div class="category-promo-icon">💻</div>
+                        <div class="category-promo-title">熱銷筆電</div>
+                        <div class="category-promo-desc">登記抽淨水器</div>
+                        <div class="category-promo-price">+10,000P</div>
+                    </div>
+                    <div class="category-promo" style="background: linear-gradient(135deg, #ff6600 0%, #ff4400 100%);">
+                        <div class="category-promo-icon">🎮</div>
+                        <div class="category-promo-title">電玩速報</div>
+                        <div class="category-promo-desc">新品搶先 最高</div>
+                        <div class="category-promo-price">送5000P</div>
+                    </div>
+                    <div class="category-promo" style="background: linear-gradient(135deg, #ff0066 0%, #cc0044 100%);">
+                        <div class="category-promo-icon">🏠</div>
+                        <div class="category-promo-title">除濕家電</div>
+                        <div class="category-promo-desc">家大而實惠</div>
+                        <div class="category-promo-price">全館6折起</div>
+                    </div>
+                    <div class="category-promo" style="background: linear-gradient(135deg, #ffaa00 0%, #ff8800 100%);">
+                        <div class="category-promo-icon">🍜</div>
+                        <div class="category-promo-title">人氣美食</div>
+                        <div class="category-promo-desc">指定品滿額</div>
+                        <div class="category-promo-price">現折380</div>
+                    </div>
+                    <div class="category-promo" style="background: linear-gradient(135deg, #00cc66 0%, #00aa55 100%);">
+                        <div class="category-promo-icon">🍳</div>
+                        <div class="category-promo-title">餐廚家電</div>
+                        <div class="category-promo-desc">登記抽500P</div>
+                        <div class="category-promo-price">+LEGO樂高</div>
+                    </div>
+                    <div class="category-promo" style="background: linear-gradient(135deg, #0099ff 0%, #0077dd 100%);">
+                        <div class="category-promo-icon">🏃</div>
+                        <div class="category-promo-title">戶外休閒</div>
+                        <div class="category-promo-desc">滿千登記</div>
+                        <div class="category-promo-price">抽100P</div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
