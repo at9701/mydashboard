@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技術筆記 - 羅的資安筆記</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header-strip {
+            background: #000;
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85em;
+        }
+
+        .header-strip-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-strip a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .site-header {
+            background: white;
+            border-bottom: 3px solid #00a8cc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .site-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .site-title {
+            font-size: 2.5em;
+            color: #00a8cc;
+            font-weight: bold;
+        }
+
+        .site-tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .main-nav {
+            background: #005f73;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            background: #00a8cc;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: #005f73;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .category-tabs {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #e0f4f7;
+            color: #005f73;
+            border: 2px solid #00a8cc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: #00a8cc;
+            color: white;
+        }
+
+        .notes-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .note-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .note-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .note-header {
+            background: linear-gradient(135deg, #0a4d68 0%, #088395 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .note-category {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .note-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .note-date {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .note-content {
+            padding: 25px;
+        }
+
+        .note-summary {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .code-preview {
+            background: #f8f9fa;
+            border-left: 4px solid #00a8cc;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #495057;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .note-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .tag {
+            background: #e0f4f7;
+            color: #005f73;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+        }
+
+        .read-more {
+            color: #00a8cc;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .read-more:hover {
+            color: #005f73;
+        }
+
+        footer {
+            background: #005f73;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .category-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        <div class="header-strip-content">
+            <span>🔒 資安威脅等級：中等 | 📅 今天是 2025年10月25日 星期六</span>
+            <span><a href="threats.html">資安通報專區</a> | <a href="about.html">聯絡站長</a></span>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-content">
+            <h1 class="site-title">🛡️ 羅的資安筆記</h1>
+            <p class="site-tagline">醫療資訊安全實戰經驗分享 | Healthcare InfoSec Blog</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="main-nav-content">
+            <a href="index.html">🏠 首頁</a>
+            <a href="articles.html">📰 資安文章</a>
+            <a href="threats.html">🔐 威脅情資</a>
+            <a href="notes.html" class="active">💻 技術筆記</a>
+            <a href="compliance.html">📋 法規遵循</a>
+            <a href="about.html">ℹ️ 關於我</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>💻 技術筆記</h1>
+            <p>實戰操作記錄與故障排除經驗</p>
+        </div>
+
+        <div class="category-tabs">
+            <a href="#" class="tab-btn active">全部筆記</a>
+            <a href="#" class="tab-btn">網路設備</a>
+            <a href="#" class="tab-btn">系統管理</a>
+            <a href="#" class="tab-btn">資安工具</a>
+            <a href="#" class="tab-btn">故障排除</a>
+        </div>
+
+        <div class="notes-grid">
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🌐 網路設備</span>
+                    <h3 class="note-title">Cisco 防火牆 NAT 規則設定筆記</h3>
+                    <p class="note-date">📅 2025-10-24 | 💾 最後更新</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        記錄如何在 Cisco ASA 防火牆上設定 NAT 規則，
+                        包括靜態 NAT、動態 NAT 和 PAT 的配置方法。
+                        特別說明醫療系統對外開放時的安全考量。
+                    </p>
+                    <div class="code-preview">
+object network obj-inside-server<br>
+&nbsp;host 192.168.1.100<br>
+nat (inside,outside) static 203.0.113.10
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#Cisco</span>
+                        <span class="tag">#防火牆</span>
+                        <span class="tag">#NAT</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🔐 資安工具</span>
+                    <h3 class="note-title">OpenSSL 憑證管理常用指令集</h3>
+                    <p class="note-date">📅 2025-10-22 | 📝 操作指令</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        整理 OpenSSL 在憑證管理上的常用指令，
+                        包括 CSR 產生、憑證查看、格式轉換等。
+                        這些都是日常維護 SSL 憑證時會用到的指令。
+                    </p>
+                    <div class="code-preview">
+# 查看憑證內容<br>
+openssl x509 -in certificate.crt -text -noout<br>
+<br>
+# 檢查憑證與私鑰是否配對<br>
+openssl x509 -noout -modulus -in cert.crt | openssl md5
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#OpenSSL</span>
+                        <span class="tag">#SSL憑證</span>
+                        <span class="tag">#指令集</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🔧 故障排除</span>
+                    <h3 class="note-title">F5 健康檢查異常排查經驗</h3>
+                    <p class="note-date">📅 2025-10-20 | 🔍 問題解決</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        上週遇到 F5 負載平衡器的健康檢查一直失敗的問題。
+                        記錄從發現問題、分析原因到最終解決的完整過程。
+                        原因是後端伺服器防火牆阻擋了健康檢查的來源 IP。
+                    </p>
+                    <div class="code-preview">
+# F5 健康檢查設定<br>
+Health Monitor: HTTP<br>
+Send String: GET /health HTTP/1.1\r\nHost: server.local\r\n\r\n<br>
+Receive String: 200 OK
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#F5</span>
+                        <span class="tag">#負載平衡</span>
+                        <span class="tag">#故障排除</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">💾 系統管理</span>
+                    <h3 class="note-title">Windows Server 網路埠檢測方法</h3>
+                    <p class="note-date">📅 2025-10-18 | 🛠️ 實用技巧</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        在 Windows Server 環境中檢測網路連線狀態的各種方法，
+                        包括 PowerShell、telnet、Test-NetConnection 等工具的使用。
+                        排查伺服器之間連線問題時很實用。
+                    </p>
+                    <div class="code-preview">
+# PowerShell 檢測連線<br>
+Test-NetConnection -ComputerName 192.168.1.100 -Port 443<br>
+<br>
+# 檢查本機監聽的埠<br>
+netstat -ano | findstr LISTENING
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#Windows Server</span>
+                        <span class="tag">#PowerShell</span>
+                        <span class="tag">#網路診斷</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🐧 系統管理</span>
+                    <h3 class="note-title">Linux 防火牆 iptables 規則管理</h3>
+                    <p class="note-date">📅 2025-10-15 | 📋 設定指南</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        整理 Linux iptables 防火牆的常用規則設定，
+                        包括開放特定埠、設定 DNAT/SNAT、查看規則等。
+                        適用於 CentOS / RHEL 系統環境。
+                    </p>
+                    <div class="code-preview">
+# 允許特定埠<br>
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT<br>
+<br>
+# 查看現有規則<br>
+iptables -L -n -v --line-numbers
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#Linux</span>
+                        <span class="tag">#iptables</span>
+                        <span class="tag">#防火牆</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🔑 資安工具</span>
+                    <h3 class="note-title">Nmap 漏洞掃描實用參數</h3>
+                    <p class="note-date">📅 2025-10-12 | 🔍 掃描技巧</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        記錄 Nmap 在內部網路掃描時的常用參數組合，
+                        包括服務版本偵測、作業系統指紋識別、弱點掃描腳本等。
+                        適合定期進行內部資安檢測使用。
+                    </p>
+                    <div class="code-preview">
+# 服務版本掃描<br>
+nmap -sV -p- 192.168.1.0/24<br>
+<br>
+# 使用 NSE 腳本掃描弱點<br>
+nmap --script vuln 192.168.1.100
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#Nmap</span>
+                        <span class="tag">#漏洞掃描</span>
+                        <span class="tag">#內部稽核</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🐳 系統管理</span>
+                    <h3 class="note-title">Docker 容器日誌管理與清理</h3>
+                    <p class="note-date">📅 2025-10-10 | 🧹 維護技巧</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        Docker 容器運行一段時間後，日誌檔會佔用大量空間。
+                        記錄如何查看、限制和清理 Docker 日誌的方法，
+                        以及如何設定日誌輪替避免磁碟空間耗盡。
+                    </p>
+                    <div class="code-preview">
+# 查看容器日誌大小<br>
+docker ps -a --format "table {{.Names}}\t{{.Size}}"<br>
+<br>
+# 清理未使用的容器和映像<br>
+docker system prune -a --volumes
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#Docker</span>
+                        <span class="tag">#日誌管理</span>
+                        <span class="tag">#空間清理</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-header">
+                    <span class="note-category">🌐 網路設備</span>
+                    <h3 class="note-title">VLAN 間路由設定實戰</h3>
+                    <p class="note-date">📅 2025-10-08 | 🔧 網路配置</p>
+                </div>
+                <div class="note-content">
+                    <p class="note-summary">
+                        醫院網路環境需要將不同部門和系統隔離在不同 VLAN，
+                        但又需要特定的跨 VLAN 溝通。記錄如何在 Layer 3 交換器上
+                        設定 VLAN 間路由，以及 ACL 的存取控制規則。
+                    </p>
+                    <div class="code-preview">
+interface Vlan10<br>
+&nbsp;ip address 192.168.10.1 255.255.255.0<br>
+!<br>
+interface Vlan20<br>
+&nbsp;ip address 192.168.20.1 255.255.255.0
+                    </div>
+                    <div class="note-tags">
+                        <span class="tag">#VLAN</span>
+                        <span class="tag">#路由</span>
+                        <span class="tag">#網路架構</span>
+                    </div>
+                    <a href="#" class="read-more">查看完整筆記 →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 羅的資安筆記 · Healthcare Information Security Blog</p>
+        <p style="margin-top: 10px;">
+            <a href="about.html">關於站長</a> · 
+            <a href="about.html">聯絡方式</a> · 
+            <a href="#">RSS訂閱</a> · 
+            <a href="threats.html">資安通報</a>
+        </p>
+    </footer>
+</body>
+</html>
