@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資安文章 - 羅的資安筆記</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header-strip {
+            background: #000;
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85em;
+        }
+
+        .header-strip-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-strip a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .site-header {
+            background: white;
+            border-bottom: 3px solid #00a8cc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .site-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .site-title {
+            font-size: 2.5em;
+            color: #00a8cc;
+            font-weight: bold;
+        }
+
+        .site-tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .main-nav {
+            background: #005f73;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            background: #00a8cc;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: #005f73;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .filter-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: bold;
+            color: #005f73;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: #e0f4f7;
+            color: #005f73;
+            border: 2px solid #00a8cc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #00a8cc;
+            color: white;
+        }
+
+        .article-list {
+            display: grid;
+            gap: 25px;
+        }
+
+        .article-item {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .article-item:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .article-item h2 {
+            color: #005f73;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .article-item h2 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .article-item h2 a:hover {
+            color: #00a8cc;
+        }
+
+        .article-excerpt {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #e0f4f7;
+            color: #005f73;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: #00a8cc;
+            color: white;
+        }
+
+        .read-more {
+            color: #00a8cc;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more:hover {
+            color: #005f73;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .pagination a {
+            padding: 10px 15px;
+            background: white;
+            color: #005f73;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 2px solid #00a8cc;
+            transition: all 0.3s;
+        }
+
+        .pagination a:hover,
+        .pagination a.active {
+            background: #00a8cc;
+            color: white;
+        }
+
+        footer {
+            background: #005f73;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        <div class="header-strip-content">
+            <span>🔒 資安威脅等級：中等 | 📅 今天是 2025年10月25日 星期六</span>
+            <span><a href="#">資安通報專區</a> | <a href="#">聯絡站長</a></span>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-content">
+            <h1 class="site-title">🛡️ 羅的資安筆記</h1>
+            <p class="site-tagline">醫療資訊安全實戰經驗分享 | Healthcare InfoSec Blog</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="main-nav-content">
+            <a href="index.html">🏠 首頁</a>
+            <a href="articles.html" class="active">📰 資安文章</a>
+            <a href="threats.html">🔐 威脅情資</a>
+            <a href="notes.html">💻 技術筆記</a>
+            <a href="compliance.html">📋 法規遵循</a>
+            <a href="about.html">ℹ️ 關於我</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>📰 資安文章</h1>
+            <p>分享醫療資訊安全的實戰經驗與技術心得</p>
+        </div>
+
+        <div class="filter-bar">
+            <span class="filter-label">📂 分類篩選：</span>
+            <a href="#" class="filter-btn active">全部文章</a>
+            <a href="#" class="filter-btn">網路安全</a>
+            <a href="#" class="filter-btn">醫療資安</a>
+            <a href="#" class="filter-btn">系統管理</a>
+            <a href="#" class="filter-btn">事件應變</a>
+        </div>
+
+        <div class="article-list">
+            <article class="article-item">
+                <div class="article-meta">
+                    <span>📅 2025-10-25</span>
+                    <span>👁️ 234 次觀看</span>
+                    <span>💬 12 則留言</span>
+                    <span>⏱️ 閱讀時間 8 分鐘</span>
+                </div>
+                <h2><a href="#">醫院 HIS 系統防護實戰：多層次安全架構設計</a></h2>
+                <p class="article-excerpt">
+                    在醫療環境中，HIS（醫院資訊系統）是核心命脈，任何安全漏洞都可能影響病患安全。
+                    本文分享我們醫院在 HIS 系統的多層次防護架構，包括網路隔離、存取控制、
+                    日誌稽核等實務經驗。從 F5 負載平衡器、防火牆規則設定，到 AD 整合驗證，
+                    完整解析醫療資訊系統的安全防護策略。
+                </p>
+                <div class="article-footer">
+                    <div class="article-tags">
+                        <a href="#" class="tag">#HIS系統</a>
+                        <a href="#" class="tag">#網路安全</a>
+                        <a href="#" class="tag">#架構設計</a>
+                    </div>
+                    <a href="#" class="read-more">閱讀全文 →</a>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="article-meta">
+                    <span>📅 2025-10-23</span>
+                    <span>👁️ 456 次觀看</span>
+                    <span>💬 28 則留言</span>
+                    <span>⏱️ 閱讀時間 12 分鐘</span>
+                </div>
+                <h2><a href="#">勒索軟體攻擊應變：醫院資安事件處理實錄</a></h2>
+                <p class="article-excerpt">
+                    上個月協助處理了一起疑似勒索軟體攻擊事件，從異常偵測、事件應變、
+                    到系統復原的完整過程。分享如何建立 SOC 監控機制、
+                    制定資安事件應變計畫（IRP），以及與醫療團隊的溝通協調。
+                    醫療環境的資安事件處理有其特殊性，必須在確保病患安全的前提下進行應變。
+                </p>
+                <div class="article-footer">
+                    <div class="article-tags">
+                        <a href="#" class="tag">#勒索軟體</a>
+                        <a href="#" class="tag">#事件應變</a>
+                        <a href="#" class="tag">#SOC</a>
+                    </div>
+                    <a href="#" class="read-more">閱讀全文 →</a>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="article-meta">
+                    <span>📅 2025-10-20</span>
+                    <span>👁️ 389 次觀看</span>
+                    <span>💬 15 則留言</span>
+                    <span>⏱️ 閱讀時間 10 分鐘</span>
+                </div>
+                <h2><a href="#">LDAPS 整合實務：Active Directory 安全認證配置</a></h2>
+                <p class="article-excerpt">
+                    最近完成了多個系統的 LDAPS（LDAP over SSL）整合專案，
+                    讓所有應用系統都能透過 Active Directory 進行統一身份認證。
+                    本文記錄 LDAPS 憑證配置、連線設定、故障排除等技術細節。
+                    包括 SSL 憑證管理、LDAP 查詢優化，以及如何在 Nginx、Docker 環境中正確配置。
+                </p>
+                <div class="article-footer">
+                    <div class="article-tags">
+                        <a href="#" class="tag">#LDAPS</a>
+                        <a href="#" class="tag">#Active Directory</a>
+                        <a href="#" class="tag">#身份認證</a>
+                    </div>
+                    <a href="#" class="read-more">閱讀全文 →</a>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="article-meta">
+                    <span>📅 2025-10-18</span>
+                    <span>👁️ 312 次觀看</span>
+                    <span>💬 9 則留言</span>
+                    <span>⏱️ 閱讀時間 15 分鐘</span>
+                </div>
+                <h2><a href="#">醫療資安法規遵循：HIPAA 與台灣個資法實務</a></h2>
+                <p class="article-excerpt">
+                    醫療產業面臨嚴格的法規要求，包括個人資料保護法、醫療法規，
+                    以及參考 HIPAA 標準建立的資安管理制度。分享如何建立符合法規的資安管理框架，
+                    包括風險評估、存取控制、資料加密、稽核日誌等技術措施。
+                    同時探討醫療資料外洩的法律責任與防護策略。
+                </p>
+                <div class="article-footer">
+                    <div class="article-tags">
+                        <a href="#" class="tag">#法規遵循</a>
+                        <a href="#" class="tag">#HIPAA</a>
+                        <a href="#" class="tag">#個資法</a>
+                    </div>
+                    <a href="#" class="read-more">閱讀全文 →</a>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="article-meta">
+                    <span>📅 2025-10-15</span>
+                    <span>👁️ 267 次觀看</span>
+                    <span>💬 7 則留言</span>
+                    <span>⏱️ 閱讀時間 6 分鐘</span>
+                </div>
+                <h2><a href="#">零信任架構在醫療環境的實踐心得</a></h2>
+                <p class="article-excerpt">
+                    傳統的城堡式安全防護已不足以應對現代威脅，零信任架構（Zero Trust）
+                    成為新的安全典範。本文分享在醫療環境中導入零信任概念的經驗，
+                    包括身份驗證強化、最小權限原則、微隔離策略等。
+                    探討如何在不影響醫療作業的前提下，逐步建立零信任安全架構。
+                </p>
+                <div class="article-footer">
+                    <div class="article-tags">
+                        <a href="#" class="tag">#零信任</a>
+                        <a href="#" class="tag">#架構設計</a>
+                        <a href="#" class="tag">#身份認證</a>
+                    </div>
+                    <a href="#" class="read-more">閱讀全文 →</a>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="article-meta">
+                    <span>📅 2025-10-12</span>
+                    <span>👁️ 423 次觀看</span>
+                    <span>💬 21 則留言</span>
+                    <span>⏱️ 閱讀時間 9 分鐘</span>
+                </div>
+                <h2><a href="#">Docker 容器安全配置完整指南</a></h2>
+                <p class="article-excerpt">
+                    容器化技術為部署帶來便利，但也引入新的安全挑戰。本文整理 Docker 容器的安全配置清單，
+                    從映像檔掃描、權限控制、網路隔離到日誌監控，涵蓋容器安全的各個面向。
+                    特別分享在 Synology NAS 環境中部署 Docker 應用時的安全注意事項，
+                    以及如何整合 LDAPS 進行身份驗證。
+                </p>
+                <div class="article-footer">
+                    <div class="article-tags">
+                        <a href="#" class="tag">#Docker</a>
+                        <a href="#" class="tag">#容器安全</a>
+                        <a href="#" class="tag">#系統管理</a>
+                    </div>
+                    <a href="#" class="read-more">閱讀全文 →</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="pagination">
+            <a href="#" class="active">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">下一頁 →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 羅的資安筆記 · Healthcare Information Security Blog</p>
+        <p style="margin-top: 10px;">
+            <a href="about.html">關於站長</a> · 
+            <a href="#">聯絡方式</a> · 
+            <a href="#">RSS訂閱</a> · 
+            <a href="#">資安通報</a>
+        </p>
+    </footer>
+</body>
+</html>
