@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的部落格 - 歡迎光臨</title>
+    <title>羅的資安筆記 - 醫療資訊安全實戰經驗分享</title>
     <style>
         * {
             margin: 0;
@@ -12,219 +12,717 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
-            line-height: 1.6;
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background: #f5f5f5;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* 最上方橫幅 */
+        .header-strip {
+            background: #000;
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85em;
+        }
+
+        .header-strip-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-strip a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        /* 主標題區 */
+        .site-header {
+            background: white;
+            border-bottom: 3px solid #00a8cc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .site-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-title {
+            font-size: 2.5em;
+            color: #00a8cc;
+            font-weight: bold;
+        }
+
+        .site-tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        /* 主導航 */
+        .main-nav {
+            background: #005f73;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            background: #00a8cc;
+        }
+
+        /* 主容器 - 三欄式 */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 220px 1fr 280px;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        /* 通用盒子樣式 */
+        .box {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .box-title {
+            background: #005f73;
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 1em;
+            border-bottom: 3px solid #00a8cc;
+        }
+
+        .box-content {
+            padding: 15px;
+        }
+
+        /* 左側邊欄 */
+        .left-sidebar {
+            min-height: 300px;
+        }
+
+        .mini-profile {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .mini-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00a8cc, #005f73);
+            margin: 0 auto 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 35px;
+            border: 3px solid #f0f0f0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sidebar-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background: #f9f9f9;
+            padding-left: 20px;
+            color: #00a8cc;
+        }
+
+        .sidebar-menu .icon {
+            margin-right: 8px;
+        }
+
+        /* 主內容區 */
+        .main-content {
+            min-height: 600px;
+        }
+
+        /* 文章卡片 */
+        .article-card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #0a4d68 0%, #088395 50%, #00a8cc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .article-content {
             padding: 20px;
         }
 
-        .container {
-            max-width: 900px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 60px 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        h1 {
-            font-size: 2.5em;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 1.2em;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-        }
-
-        .intro {
-            text-align: center;
-            font-size: 1.1em;
-            color: #555;
-            margin-bottom: 50px;
-            line-height: 1.8;
-        }
-
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .nav-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 2px solid #f0f0f0;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .nav-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
-            border-color: #667eea;
-        }
-
-        .nav-card-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .nav-card h3 {
-            font-size: 1.4em;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .nav-card p {
-            color: #7f8c8d;
-            font-size: 0.95em;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            font-size: 1.3em;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #95a5a6;
+        .article-date {
+            color: #999;
             font-size: 0.9em;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 15px;
         }
 
-        @media (max-width: 768px) {
+        .article-title {
+            font-size: 1.6em;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .article-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .article-title a:hover {
+            color: #00a8cc;
+        }
+
+        .article-excerpt {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #e0f4f7;
+            color: #005f73;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: #00a8cc;
+            color: white;
+        }
+
+        .read-more {
+            color: #00a8cc;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more:hover {
+            color: #005f73;
+        }
+
+        /* 右側邊欄 */
+        .right-sidebar {
+            min-height: 300px;
+        }
+
+        .search-box {
+            padding: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00a8cc;
+        }
+
+        .search-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background: #00a8cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #005f73;
+        }
+
+        .list-simple {
+            list-style: none;
+        }
+
+        .list-simple li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        .list-simple li:last-child {
+            border-bottom: none;
+        }
+
+        .list-simple a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.3s;
+        }
+
+        .list-simple a:hover {
+            color: #00a8cc;
+        }
+
+        .calendar-simple {
+            text-align: center;
+            padding: 20px;
+            background: #e0f4f7;
+            border-radius: 5px;
+        }
+
+        .calendar-month {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #00a8cc;
+            margin-bottom: 8px;
+        }
+
+        .calendar-date {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #005f73;
+        }
+
+        .calendar-day {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .alert-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .alert-box strong {
+            color: #856404;
+        }
+
+        .alert-box p {
+            color: #856404;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        /* 頁尾 */
+        footer {
+            background: #005f73;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 1024px) {
             .container {
-                padding: 40px 25px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .nav-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="profile-image">👨‍💻</div>
-            <h1>歡迎來到我的部落格</h1>
-            <p class="subtitle">分享技術、生活與思考</p>
-        </header>
-
-        <div class="intro">
-            <p>在這裡，我記錄著技術探索的旅程、工作中的心得體會，以及生活中的點滴感悟。</p>
-            <p>希望這些內容能為你帶來啟發與幫助。</p>
+    <!-- 頂部細條 -->
+    <div class="header-strip">
+        <div class="header-strip-content">
+            <span>🔒 資安威脅等級：中等 | 📅 今天是 2025年10月25日 星期六</span>
+            <span><a href="#">資安通報專區</a> | <a href="#">聯絡站長</a></span>
         </div>
-
-        <nav class="nav-grid">
-            <a href="./blog.html" class="nav-card">
-                <div class="nav-card-icon">📝</div>
-                <h3>技術文章</h3>
-                <p>最新的技術分享與教學</p>
-            </a>
-
-            <a href="./projects.html" class="nav-card">
-                <div class="nav-card-icon">💻</div>
-                <h3>專案作品</h3>
-                <p>我的開發專案與成果</p>
-            </a>
-
-            <a href="./about.html" class="nav-card">
-                <div class="nav-card-icon">👤</div>
-                <h3>關於我</h3>
-                <p>了解更多關於我的資訊</p>
-            </a>
-
-            <a href="./contact.html" class="nav-card">
-                <div class="nav-card-icon">✉️</div>
-                <h3>聯絡方式</h3>
-                <p>歡迎與我交流聯繫</p>
-            </a>
-        </nav>
-
-        <div class="social-links">
-            <a href="#" class="social-link" title="GitHub">🐙</a>
-            <a href="#" class="social-link" title="LinkedIn">💼</a>
-            <a href="#" class="social-link" title="Email">📧</a>
-            <a href="#" class="social-link" title="Twitter">🐦</a>
-        </div>
-
-        <footer>
-            <p>© 2025 我的部落格. All rights reserved.</p>
-        </footer>
     </div>
+
+    <!-- 網站標題 -->
+    <header class="site-header">
+        <div class="site-header-content">
+            <div>
+                <h1 class="site-title">🛡️ 羅的資安筆記</h1>
+                <p class="site-tagline">醫療資訊安全實戰經驗分享 | Healthcare InfoSec Blog</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主導航 -->
+    <nav class="main-nav">
+        <div class="main-nav-content">
+            <a href="#" class="active">🏠 首頁</a>
+            <a href="#">📰 資安文章</a>
+            <a href="#">🔐 威脅情資</a>
+            <a href="#">💻 技術筆記</a>
+            <a href="#">📋 法規遵循</a>
+            <a href="#">ℹ️ 關於我</a>
+        </div>
+    </nav>
+
+    <!-- 主要內容區 -->
+    <div class="container">
+        <!-- 左側邊欄 -->
+        <aside class="left-sidebar">
+            <!-- 個人資訊 -->
+            <div class="box">
+                <div class="box-title">站長資訊</div>
+                <div class="box-content mini-profile">
+                    <div class="mini-avatar">👨‍💻</div>
+                    <strong>羅 (LO)</strong>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+                        醫院 CIO / CISO<br>
+                        資訊安全實務工作者
+                    </p>
+                </div>
+            </div>
+
+            <!-- 快速選單 -->
+            <div class="box">
+                <div class="box-title">快速選單</div>
+                <div class="box-content" style="padding: 0;">
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span class="icon">🆕</span>最新文章</a></li>
+                        <li><a href="#"><span class="icon">🔥</span>熱門文章</a></li>
+                        <li><a href="#"><span class="icon">📂</span>文章分類</a></li>
+                        <li><a href="#"><span class="icon">🏥</span>醫療資安</a></li>
+                        <li><a href="#"><span class="icon">⚠️</span>安全通報</a></li>
+                        <li><a href="#"><span class="icon">🔗</span>資安資源</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 統計資訊 -->
+            <div class="box">
+                <div class="box-title">網站統計</div>
+                <div class="box-content" style="font-size: 0.9em; line-height: 2;">
+                    <div>📊 文章總數: <strong>89</strong></div>
+                    <div>💬 留言總數: <strong>456</strong></div>
+                    <div>👁️ 總瀏覽: <strong>32,567</strong></div>
+                    <div>📅 運行天數: <strong>568</strong></div>
+                    <div>🔐 資安事件: <strong>0</strong></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主內容 -->
+        <main class="main-content">
+            <!-- 文章 1 -->
+            <article class="article-card">
+                <div class="article-image">🔒</div>
+                <div class="article-content">
+                    <div class="article-date">
+                        <span>📅 2025-10-25</span>
+                        <span>👁️ 234 次觀看</span>
+                        <span>💬 12 則留言</span>
+                    </div>
+                    <h2 class="article-title">
+                        <a href="#">醫院 HIS 系統防護實戰：多層次安全架構設計</a>
+                    </h2>
+                    <p class="article-excerpt">
+                        在醫療環境中，HIS（醫院資訊系統）是核心命脈，任何安全漏洞都可能影響病患安全。
+                        本文分享我們醫院在 HIS 系統的多層次防護架構，包括網路隔離、存取控制、
+                        日誌稽核等實務經驗。從 F5 負載平衡器、防火牆規則設定，到 AD 整合驗證，
+                        完整解析醫療資訊系統的安全防護策略...
+                    </p>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <a href="#" class="tag">#HIS系統</a>
+                            <a href="#" class="tag">#網路安全</a>
+                            <a href="#" class="tag">#架構設計</a>
+                        </div>
+                        <a href="#" class="read-more">閱讀全文 →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 文章 2 -->
+            <article class="article-card">
+                <div class="article-image">⚠️</div>
+                <div class="article-content">
+                    <div class="article-date">
+                        <span>📅 2025-10-23</span>
+                        <span>👁️ 456 次觀看</span>
+                        <span>💬 28 則留言</span>
+                    </div>
+                    <h2 class="article-title">
+                        <a href="#">勒索軟體攻擊應變：醫院資安事件處理實錄</a>
+                    </h2>
+                    <p class="article-excerpt">
+                        上個月協助處理了一起疑似勒索軟體攻擊事件，從異常偵測、事件應變、
+                        到系統復原的完整過程。分享如何建立 SOC 監控機制、
+                        制定資安事件應變計畫（IRP），以及與醫療團隊的溝通協調。
+                        醫療環境的資安事件處理有其特殊性，必須在確保病患安全的前提下進行應變...
+                    </p>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <a href="#" class="tag">#勒索軟體</a>
+                            <a href="#" class="tag">#事件應變</a>
+                            <a href="#" class="tag">#SOC</a>
+                        </div>
+                        <a href="#" class="read-more">閱讀全文 →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 文章 3 -->
+            <article class="article-card">
+                <div class="article-image">🔐</div>
+                <div class="article-content">
+                    <div class="article-date">
+                        <span>📅 2025-10-20</span>
+                        <span>👁️ 389 次觀看</span>
+                        <span>💬 15 則留言</span>
+                    </div>
+                    <h2 class="article-title">
+                        <a href="#">LDAPS 整合實務：Active Directory 安全認證配置</a>
+                    </h2>
+                    <p class="article-excerpt">
+                        最近完成了多個系統的 LDAPS（LDAP over SSL）整合專案，
+                        讓所有應用系統都能透過 Active Directory 進行統一身份認證。
+                        本文記錄 LDAPS 憑證配置、連線設定、故障排除等技術細節。
+                        包括 SSL 憑證管理、LDAP 查詢優化，以及如何在 Nginx、Docker 環境中正確配置...
+                    </p>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <a href="#" class="tag">#LDAPS</a>
+                            <a href="#" class="tag">#Active Directory</a>
+                            <a href="#" class="tag">#身份認證</a>
+                        </div>
+                        <a href="#" class="read-more">閱讀全文 →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 文章 4 -->
+            <article class="article-card">
+                <div class="article-image">🏥</div>
+                <div class="article-content">
+                    <div class="article-date">
+                        <span>📅 2025-10-18</span>
+                        <span>👁️ 312 次觀看</span>
+                        <span>💬 9 則留言</span>
+                    </div>
+                    <h2 class="article-title">
+                        <a href="#">醫療資安法規遵循：HIPAA 與台灣個資法實務</a>
+                    </h2>
+                    <p class="article-excerpt">
+                        醫療產業面臨嚴格的法規要求，包括個人資料保護法、醫療法規，
+                        以及參考 HIPAA 標準建立的資安管理制度。分享如何建立符合法規的資安管理框架，
+                        包括風險評估、存取控制、資料加密、稽核日誌等技術措施。
+                        同時探討醫療資料外洩的法律責任與防護策略...
+                    </p>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <a href="#" class="tag">#法規遵循</a>
+                            <a href="#" class="tag">#HIPAA</a>
+                            <a href="#" class="tag">#個資法</a>
+                        </div>
+                        <a href="#" class="read-more">閱讀全文 →</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右側邊欄 -->
+        <aside class="right-sidebar">
+            <!-- 資安警報 -->
+            <div class="box">
+                <div class="box-title">⚠️ 資安警報</div>
+                <div class="box-content">
+                    <div class="alert-box">
+                        <strong>🔴 高風險漏洞通報</strong>
+                        <p>Windows Server 最新安全更新已釋出，請儘速更新修補</p>
+                    </div>
+                    <div class="alert-box" style="background: #d1ecf1; border-left-color: #0c5460;">
+                        <strong style="color: #0c5460;">🔵 威脅情資</strong>
+                        <p style="color: #0c5460;">近期發現針對醫療產業的釣魚攻擊增加</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 搜尋 -->
+            <div class="box">
+                <div class="box-title">站內搜尋</div>
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="搜尋資安文章...">
+                    <button class="search-btn">🔍 搜尋</button>
+                </div>
+            </div>
+
+            <!-- 日曆 -->
+            <div class="box">
+                <div class="box-title">今日日期</div>
+                <div class="box-content">
+                    <div class="calendar-simple">
+                        <div class="calendar-month">十月 October</div>
+                        <div class="calendar-date">25</div>
+                        <div class="calendar-day">星期六</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 熱門文章 -->
+            <div class="box">
+                <div class="box-title">🔥 熱門文章</div>
+                <div class="box-content">
+                    <ul class="list-simple">
+                        <li><a href="#">1. 零信任架構在醫療環境的實踐</a></li>
+                        <li><a href="#">2. Docker 容器安全配置指南</a></li>
+                        <li><a href="#">3. Nginx 反向代理安全設定</a></li>
+                        <li><a href="#">4. SQL Injection 防護實戰</a></li>
+                        <li><a href="#">5. 醫療 IoT 設備安全管理</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 分類 -->
+            <div class="box">
+                <div class="box-title">📂 文章分類</div>
+                <div class="box-content">
+                    <ul class="list-simple">
+                        <li><a href="#">🔒 網路安全 (23)</a></li>
+                        <li><a href="#">🏥 醫療資安 (18)</a></li>
+                        <li><a href="#">💻 系統管理 (15)</a></li>
+                        <li><a href="#">⚠️ 威脅情資 (12)</a></li>
+                        <li><a href="#">📋 法規遵循 (10)</a></li>
+                        <li><a href="#">🔧 工具介紹 (11)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 標籤雲 -->
+            <div class="box">
+                <div class="box-title">🏷️ 熱門標籤</div>
+                <div class="box-content">
+                    <div class="article-tags" style="flex-wrap: wrap;">
+                        <a href="#" class="tag">#HIS系統</a>
+                        <a href="#" class="tag">#PACS</a>
+                        <a href="#" class="tag">#EMR</a>
+                        <a href="#" class="tag">#防火牆</a>
+                        <a href="#" class="tag">#LDAPS</a>
+                        <a href="#" class="tag">#SSL憑證</a>
+                        <a href="#" class="tag">#漏洞掃描</a>
+                        <a href="#" class="tag">#滲透測試</a>
+                        <a href="#" class="tag">#SOC</a>
+                        <a href="#" class="tag">#SIEM</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 資安資源 -->
+            <div class="box">
+                <div class="box-title">🔗 資安資源</div>
+                <div class="box-content">
+                    <ul class="list-simple">
+                        <li><a href="#">台灣電腦網路危機處理中心</a></li>
+                        <li><a href="#">NIST 網路安全框架</a></li>
+                        <li><a href="#">OWASP Top 10</a></li>
+                        <li><a href="#">CIS Controls</a></li>
+                        <li><a href="#">CVE 漏洞資料庫</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>© 2025 羅的資安筆記 · Healthcare Information Security Blog</p>
+        <p style="margin-top: 10px;">
+            <a href="#">關於站長</a> · 
+            <a href="#">聯絡方式</a> · 
+            <a href="#">RSS訂閱</a> · 
+            <a href="#">資安通報</a>
+        </p>
+        <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+            🔒 本站採用 HTTPS 加密連線 · 保護您的資訊安全
+        </p>
+    </footer>
 </body>
 </html>
