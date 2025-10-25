@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我 - 羅的資安筆記</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .header-strip {
+            background: #000;
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85em;
+        }
+
+        .header-strip-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-strip a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .site-header {
+            background: white;
+            border-bottom: 3px solid #00a8cc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .site-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .site-title {
+            font-size: 2.5em;
+            color: #00a8cc;
+            font-weight: bold;
+        }
+
+        .site-tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .main-nav {
+            background: #005f73;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            background: #00a8cc;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00a8cc, #005f73);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            border: 5px solid #f0f0f0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: #005f73;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #00a8cc;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0f4f7;
+        }
+
+        h3 {
+            color: #005f73;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+        }
+
+        .intro {
+            font-size: 1.1em;
+            color: #666;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #00a8cc;
+        }
+
+        .info-card strong {
+            color: #005f73;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .skill-tag {
+            background: #e0f4f7;
+            color: #005f73;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            border: 2px solid #00a8cc;
+        }
+
+        .contact-section {
+            background: #e0f4f7;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1em;
+        }
+
+        .contact-item span {
+            font-size: 1.5em;
+        }
+
+        footer {
+            background: #005f73;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        <div class="header-strip-content">
+            <span>🔒 資安威脅等級：中等 | 📅 今天是 2025年10月25日 星期六</span>
+            <span><a href="#">資安通報專區</a> | <a href="#">聯絡站長</a></span>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-content">
+            <h1 class="site-title">🛡️ 羅的資安筆記</h1>
+            <p class="site-tagline">醫療資訊安全實戰經驗分享 | Healthcare InfoSec Blog</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="main-nav-content">
+            <a href="index.html">🏠 首頁</a>
+            <a href="articles.html">📰 資安文章</a>
+            <a href="threats.html">🔐 威脅情資</a>
+            <a href="notes.html">💻 技術筆記</a>
+            <a href="compliance.html">📋 法規遵循</a>
+            <a href="about.html" class="active">ℹ️ 關於我</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="content-box">
+            <div class="profile-header">
+                <div class="profile-avatar">👨‍💻</div>
+                <h1>羅 (LO)</h1>
+                <p class="intro">醫院資訊工程師<br>網路與資訊安全負責人</p>
+            </div>
+
+            <h2>📋 個人簡介</h2>
+            <p>
+                我是羅，目前在醫療機構擔任資訊工程師，主要負責網路架構與資訊安全的維運工作。
+                每天的工作包含網路設備管理、資安事件處理、系統監控與故障排除。
+                在醫療環境中，資訊系統的穩定與安全直接關係到病患照護品質，這讓我深刻體會到資訊人員的責任重大。
+                透過這個部落格，我想分享在第一線工作中遇到的實際問題與解決經驗，
+                希望能與同樣在醫療資訊領域奮鬥的夥伴們互相交流學習。
+            </p>
+
+            <h2>💼 工作職責</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <strong>🌐 網路管理</strong>
+                    <p>醫院網路架構維運、VLAN 規劃、防火牆管理</p>
+                </div>
+                <div class="info-card">
+                    <strong>🔒 資訊安全</strong>
+                    <p>資安事件監控與應變、弱點掃描、安全政策執行</p>
+                </div>
+                <div class="info-card">
+                    <strong>🔧 系統維護</strong>
+                    <p>伺服器管理、負載平衡設定、SSL 憑證維護</p>
+                </div>
+                <div class="info-card">
+                    <strong>📊 監控告警</strong>
+                    <p>系統監控、日誌分析、異常事件處理</p>
+                </div>
+            </div>
+
+            <h2>🛠️ 技術專長</h2>
+            <div class="skills-container">
+                <div class="skill-tag">🔐 網路安全</div>
+                <div class="skill-tag">🏥 醫療系統</div>
+                <div class="skill-tag">🔥 防火牆管理</div>
+                <div class="skill-tag">📡 F5 負載平衡</div>
+                <div class="skill-tag">🔑 身份認證</div>
+                <div class="skill-tag">🐧 Linux 系統</div>
+                <div class="skill-tag">🪟 Windows Server</div>
+                <div class="skill-tag">🐳 Docker 容器</div>
+                <div class="skill-tag">🌐 Nginx</div>
+                <div class="skill-tag">📂 Active Directory</div>
+                <div class="skill-tag">🔍 漏洞掃描</div>
+                <div class="skill-tag">⚠️ 事件應變</div>
+            </div>
+
+            <h2>🎯 專業領域</h2>
+            <h3>網路架構與安全</h3>
+            <ul>
+                <li>醫院網路架構規劃與維運（多層 VLAN、網路隔離）</li>
+                <li>Cisco 網路設備管理與設定</li>
+                <li>防火牆規則配置與管理</li>
+                <li>F5 負載平衡器操作與維護</li>
+                <li>VPN 與遠端存取安全管理</li>
+            </ul>
+
+            <h3>資訊安全實務</h3>
+            <ul>
+                <li>資安事件監控與緊急應變</li>
+                <li>弱點掃描與漏洞修補追蹤</li>
+                <li>滲透測試與紅藍隊演練協助</li>
+                <li>日誌分析與異常行為偵測</li>
+                <li>資安政策執行與稽核配合</li>
+                <li>員工資安教育訓練</li>
+            </ul>
+
+            <h3>系統管理</h3>
+            <ul>
+                <li>Windows Server / Linux 伺服器管理</li>
+                <li>Active Directory 維運與 LDAPS 整合</li>
+                <li>SSL/TLS 憑證申請與配置</li>
+                <li>Nginx 反向代理設定與優化</li>
+                <li>Docker 容器部署（Synology NAS）</li>
+                <li>SQL Server 基礎管理與安全設定</li>
+            </ul>
+
+            <h3>醫療系統支援</h3>
+            <ul>
+                <li>HIS（醫院資訊系統）網路層支援</li>
+                <li>PACS（醫學影像系統）網路效能優化</li>
+                <li>EMR（電子病歷）系統安全防護</li>
+                <li>醫療 IoT 設備網路管理</li>
+            </ul>
+
+            <h2>📚 部落格分享重點</h2>
+            <p>在這個部落格中，我主要分享：</p>
+            <ul>
+                <li><strong>故障排除經驗</strong>：實際遇到的網路與系統問題及解決方法</li>
+                <li><strong>技術筆記</strong>：設備設定、指令操作、配置檔案等詳細記錄</li>
+                <li><strong>資安實務</strong>：日常資安監控、事件處理的實戰經驗</li>
+                <li><strong>學習筆記</strong>：新技術學習、證照準備、工具應用心得</li>
+                <li><strong>醫療環境特殊性</strong>：醫療產業特有的 IT 挑戰與解決思路</li>
+            </ul>
+
+            <h2>🎓 持續成長</h2>
+            <p>
+                資訊技術日新月異，資安威脅也不斷演進。我持續透過線上課程、技術文件、
+                社群交流來學習新知識。也會參加資安研討會、CTF 競賽來精進實戰技能。
+                這個部落格不只是分享，也是我整理思緒、記錄成長的地方。
+                很多時候，把問題寫下來的過程，就能找到更好的解決方案。
+            </p>
+
+            <div class="contact-section">
+                <h2 style="border: none; padding: 0; margin-top: 0;">📧 聯絡方式</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <div>
+                            <strong>Email</strong><br>
+                            歡迎透過站內留言或社群媒體與我聯繫
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span>💼</span>
+                        <div>
+                            <strong>LinkedIn</strong><br>
+                            歡迎交流醫療資安相關議題
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span>🐙</span>
+                        <div>
+                            <strong>GitHub</strong><br>
+                            分享開源工具與腳本
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 羅的資安筆記 · Healthcare Information Security Blog</p>
+        <p style="margin-top: 10px;">
+            <a href="about.html">關於站長</a> · 
+            <a href="#">聯絡方式</a> · 
+            <a href="#">RSS訂閱</a> · 
+            <a href="#">資安通報</a>
+        </p>
+    </footer>
+</body>
+</html>

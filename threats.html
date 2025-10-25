@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>威脅情資 - 羅的資安筆記</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header-strip {
+            background: #000;
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85em;
+        }
+
+        .header-strip-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-strip a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .site-header {
+            background: white;
+            border-bottom: 3px solid #00a8cc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .site-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .site-title {
+            font-size: 2.5em;
+            color: #00a8cc;
+            font-weight: bold;
+        }
+
+        .site-tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .main-nav {
+            background: #005f73;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            background: #00a8cc;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: #005f73;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .alert-critical {
+            background: #fff3cd;
+            border-left: 5px solid #ff6b6b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(255,107,107,0.2);
+        }
+
+        .alert-critical h3 {
+            color: #c92a2a;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .threat-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .threat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #00a8cc;
+        }
+
+        .threat-card.high {
+            border-left-color: #ff6b6b;
+        }
+
+        .threat-card.medium {
+            border-left-color: #ffa500;
+        }
+
+        .threat-card.low {
+            border-left-color: #51cf66;
+        }
+
+        .threat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .threat-title {
+            flex: 1;
+        }
+
+        .threat-title h3 {
+            color: #005f73;
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        .threat-meta {
+            display: flex;
+            gap: 15px;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .threat-level {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .threat-level.high {
+            background: #ffe3e3;
+            color: #c92a2a;
+        }
+
+        .threat-level.medium {
+            background: #fff4e6;
+            color: #d9480f;
+        }
+
+        .threat-level.low {
+            background: #e6fcf5;
+            color: #087f5b;
+        }
+
+        .threat-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .threat-details {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .threat-details strong {
+            color: #005f73;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .threat-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .tag {
+            background: #e0f4f7;
+            color: #005f73;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+        }
+
+        .mitigation {
+            background: #e6fcf5;
+            border-left: 4px solid #20c997;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .mitigation strong {
+            color: #087f5b;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .mitigation ul {
+            margin-left: 20px;
+            color: #495057;
+        }
+
+        .mitigation li {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background: #005f73;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        <div class="header-strip-content">
+            <span>🔴 資安威脅等級：高 | 📅 今天是 2025年10月25日 星期六</span>
+            <span><a href="#">資安通報專區</a> | <a href="#">聯絡站長</a></span>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-content">
+            <h1 class="site-title">🛡️ 羅的資安筆記</h1>
+            <p class="site-tagline">醫療資訊安全實戰經驗分享 | Healthcare InfoSec Blog</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="main-nav-content">
+            <a href="index.html">🏠 首頁</a>
+            <a href="articles.html">📰 資安文章</a>
+            <a href="threats.html" class="active">🔐 威脅情資</a>
+            <a href="notes.html">💻 技術筆記</a>
+            <a href="compliance.html">📋 法規遵循</a>
+            <a href="about.html">ℹ️ 關於我</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🔐 威脅情資</h1>
+            <p>即時更新的資安威脅資訊與防護建議</p>
+        </div>
+
+        <div class="alert-critical">
+            <h3>⚠️ 緊急警報</h3>
+            <p><strong>Windows Server 重大漏洞修補通知</strong></p>
+            <p>Microsoft 於 10月份安全更新中修補了多個高危漏洞，其中包括可能導致遠端程式碼執行的漏洞。
+            建議所有使用 Windows Server 的醫療機構立即進行更新。</p>
+        </div>
+
+        <div class="threat-grid">
+            <div class="threat-card high">
+                <div class="threat-header">
+                    <div class="threat-title">
+                        <h3>針對醫療產業的勒索軟體攻擊浪潮</h3>
+                        <div class="threat-meta">
+                            <span>📅 2025-10-24</span>
+                            <span>🔍 來源：國際資安組織</span>
+                        </div>
+                    </div>
+                    <span class="threat-level high">高風險</span>
+                </div>
+                <p class="threat-description">
+                    近期觀察到多起針對醫療機構的勒索軟體攻擊事件，攻擊者利用釣魚郵件和已知漏洞入侵醫院網路，
+                    加密重要醫療資料並要求贖金。受害機構包括美國、歐洲及亞洲地區的多家醫院。
+                </p>
+                <div class="threat-details">
+                    <strong>攻擊手法：</strong>
+                    <p>透過魚叉式釣魚郵件傳送惡意附件，或利用未修補的 VPN 漏洞取得初始存取權限，
+                    再使用橫向移動技術擴散至整個網路環境。</p>
+                </div>
+                <div class="mitigation">
+                    <strong>防護建議：</strong>
+                    <ul>
+                        <li>立即更新所有系統安全修補程式</li>
+                        <li>強化郵件安全閘道，加強釣魚郵件過濾</li>
+                        <li>實施網路隔離，限制橫向移動</li>
+                        <li>定期進行離線備份，並測試還原程序</li>
+                        <li>加強員工資安意識訓練</li>
+                    </ul>
+                </div>
+                <div class="threat-tags">
+                    <span class="tag">#勒索軟體</span>
+                    <span class="tag">#醫療產業</span>
+                    <span class="tag">#釣魚攻擊</span>
+                </div>
+            </div>
+
+            <div class="threat-card medium">
+                <div class="threat-header">
+                    <div class="threat-title">
+                        <h3>醫療 IoT 設備存在未修補漏洞</h3>
+                        <div class="threat-meta">
+                            <span>📅 2025-10-22</span>
+                            <span>🔍 來源：IoT 安全研究機構</span>
+                        </div>
+                    </div>
+                    <span class="threat-level medium">中風險</span>
+                </div>
+                <p class="threat-description">
+                    研究人員發現多款醫療 IoT 設備存在安全漏洞，包括輸液幫浦、生理監視器等設備。
+                    這些漏洞可能被用來竄改設備設定或竊取病患資料。部分設備製造商已釋出更新，
+                    但許多醫院尚未完成修補。
+                </p>
+                <div class="threat-details">
+                    <strong>受影響設備：</strong>
+                    <p>特定品牌的輸液幫浦、生理監視器、呼吸器控制系統。詳細清單請參考製造商公告。</p>
+                </div>
+                <div class="mitigation">
+                    <strong>防護建議：</strong>
+                    <ul>
+                        <li>盤點所有醫療 IoT 設備，確認韌體版本</li>
+                        <li>將醫療設備隔離於獨立 VLAN</li>
+                        <li>限制醫療設備的網路存取權限</li>
+                        <li>與設備供應商聯繫，安排修補更新</li>
+                        <li>加強設備存取日誌監控</li>
+                    </ul>
+                </div>
+                <div class="threat-tags">
+                    <span class="tag">#IoT安全</span>
+                    <span class="tag">#醫療設備</span>
+                    <span class="tag">#漏洞管理</span>
+                </div>
+            </div>
+
+            <div class="threat-card high">
+                <div class="threat-header">
+                    <div class="threat-title">
+                        <h3>新型 SQL Injection 攻擊技術</h3>
+                        <div class="threat-meta">
+                            <span>📅 2025-10-20</span>
+                            <span>🔍 來源：Web 安全研究團隊</span>
+                        </div>
+                    </div>
+                    <span class="threat-level high">高風險</span>
+                </div>
+                <p class="threat-description">
+                    安全研究人員發現新型的 SQL Injection 攻擊技術，可繞過常見的 WAF 防護。
+                    此技術已被用於攻擊多個醫療機構的線上掛號系統和病患查詢系統，
+                    造成敏感資料外洩風險。
+                </p>
+                <div class="threat-details">
+                    <strong>攻擊特徵：</strong>
+                    <p>利用編碼變換和時間盲注技術繞過輸入驗證，針對舊版 Web 應用程式的資料庫查詢介面進行攻擊。</p>
+                </div>
+                <div class="mitigation">
+                    <strong>防護建議：</strong>
+                    <ul>
+                        <li>檢視所有對外 Web 應用程式的輸入驗證機制</li>
+                        <li>採用參數化查詢（Prepared Statements）</li>
+                        <li>更新 WAF 規則，加強 SQL Injection 防護</li>
+                        <li>實施最小權限原則，限制資料庫帳號權限</li>
+                        <li>定期進行 Web 應用程式漏洞掃描</li>
+                    </ul>
+                </div>
+                <div class="threat-tags">
+                    <span class="tag">#SQL Injection</span>
+                    <span class="tag">#Web安全</span>
+                    <span class="tag">#資料外洩</span>
+                </div>
+            </div>
+
+            <div class="threat-card medium">
+                <div class="threat-header">
+                    <div class="threat-title">
+                        <h3>社交工程攻擊瞄準醫療人員</h3>
+                        <div class="threat-meta">
+                            <span>📅 2025-10-18</span>
+                            <span>🔍 來源：資安事件通報</span>
+                        </div>
+                    </div>
+                    <span class="threat-level medium">中風險</span>
+                </div>
+                <p class="threat-description">
+                    近期發現多起針對醫療人員的社交工程攻擊，攻擊者冒充 IT 部門人員或醫療器材廠商，
+                    透過電話或電子郵件要求提供帳號密碼或安裝遠端存取軟體。
+                    已有數家醫院的員工受騙，導致帳號被盜用。
+                </p>
+                <div class="threat-details">
+                    <strong>常見手法：</strong>
+                    <p>冒充 IT 支援人員聲稱需要進行系統維護，要求提供帳號密碼；
+                    或冒充醫療器材廠商要求安裝更新程式，實際為遠端控制木馬。</p>
+                </div>
+                <div class="mitigation">
+                    <strong>防護建議：</strong>
+                    <ul>
+                        <li>加強員工資安意識訓練，特別是社交工程防範</li>
+                        <li>建立明確的身份驗證程序，IT 人員不會索取密碼</li>
+                        <li>實施多因素認證（MFA）</li>
+                        <li>設立資安事件通報管道</li>
+                        <li>定期進行社交工程演練測試</li>
+                    </ul>
+                </div>
+                <div class="threat-tags">
+                    <span class="tag">#社交工程</span>
+                    <span class="tag">#釣魚攻擊</span>
+                    <span class="tag">#帳號盜用</span>
+                </div>
+            </div>
+
+            <div class="threat-card low">
+                <div class="threat-header">
+                    <div class="threat-title">
+                        <h3>過時的 SSL/TLS 協定安全風險</h3>
+                        <div class="threat-meta">
+                            <span>📅 2025-10-15</span>
+                            <span>🔍 來源：加密技術研究</span>
+                        </div>
+                    </div>
+                    <span class="threat-level low">低風險</span>
+                </div>
+                <p class="threat-description">
+                    安全掃描發現部分醫療機構仍在使用已過時的 SSL/TLS 協定版本（如 TLS 1.0、1.1），
+                    這些協定存在已知的安全弱點，可能被用於中間人攻擊。
+                    雖然風險相對較低，但建議盡快升級至 TLS 1.2 或 1.3。
+                </p>
+                <div class="threat-details">
+                    <strong>潛在風險：</strong>
+                    <p>過時的協定可能被攻擊者利用進行降級攻擊，截取或竄改加密通訊內容。</p>
+                </div>
+                <div class="mitigation">
+                    <strong>防護建議：</strong>
+                    <ul>
+                        <li>掃描並盤點所有使用 SSL/TLS 的服務</li>
+                        <li>停用 TLS 1.0 和 1.1，僅支援 TLS 1.2 及以上版本</li>
+                        <li>更新伺服器和應用程式以支援新版協定</li>
+                        <li>檢查並更新 SSL 憑證設定</li>
+                        <li>使用強加密套件</li>
+                    </ul>
+                </div>
+                <div class="threat-tags">
+                    <span class="tag">#SSL/TLS</span>
+                    <span class="tag">#加密協定</span>
+                    <span class="tag">#系統升級</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 羅的資安筆記 · Healthcare Information Security Blog</p>
+        <p style="margin-top: 10px;">
+            <a href="about.html">關於站長</a> · 
+            <a href="#">聯絡方式</a> · 
+            <a href="#">RSS訂閱</a> · 
+            <a href="#">資安通報</a>
+        </p>
+    </footer>
+</body>
+</html>
